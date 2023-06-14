@@ -22,6 +22,8 @@ const app = express();
 app.use(
   cors({
     origin: ['http://localhost:3000', 'https://mesto-app.nomoredomains.rocks'],
+    credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   }),
 );
 
