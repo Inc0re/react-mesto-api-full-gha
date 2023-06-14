@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, errors } = require('celebrate');
@@ -17,6 +18,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://mesto-app.nomoredomains.rocks'],
+  }),
+);
 
 app.use(helmet());
 
