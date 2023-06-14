@@ -48,7 +48,7 @@ class AuthApi {
 }
 
 const authApi = new AuthApi({
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'https://api.mesto-app.nomoredomains.rocks',
   // baseUrl: 'http://localhost:3001',
   headers: {
     'Content-Type': 'application/json',
