@@ -147,6 +147,8 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, jwtSecret, { expiresIn: '7d' });
       res.cookie('token', token, {
         httpOnly: true,
+        maxAge: 3600000 * 24 * 7, // 7 days
+        secure: true,
       });
       res.status(200).send({ message: 'Авторизация прошла успешно' });
     })
