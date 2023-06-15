@@ -148,7 +148,6 @@ const login = (req, res, next) => {
       res.cookie('token', token, {
         httpOnly: true,
         maxAge: 3600000 * 24 * 7, // 7 days
-        secure: true,
         sameSite: 'None',
       });
       res.status(200).send({ message: 'Авторизация прошла успешно' });
@@ -156,6 +155,11 @@ const login = (req, res, next) => {
     .catch((err) => {
       next(new UnauthorizedError(err.message));
     });
+};
+
+// Log out
+const logOut = (req, res) => {
+  res.clearCookie('token').send({ message: 'Выход из системы прошёл успешно' });
 };
 
 module.exports = {
@@ -166,4 +170,5 @@ module.exports = {
   updateUser,
   updateUserAvatar,
   login,
+  logOut,
 };

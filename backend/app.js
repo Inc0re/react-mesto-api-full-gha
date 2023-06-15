@@ -10,7 +10,7 @@ const { celebrate, errors } = require('celebrate');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { NotFoundError } = require('./utils/errors');
-const { login, createUser } = require('./controllers/users');
+const { login, createUser, logOut } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const userValidator = require('./utils/validators/userValidator');
 const errorHandler = require('./middlewares/error-handler');
@@ -61,6 +61,8 @@ app.get('/crash-test', () => {
 // Unprotected routes
 app.post('/signin', celebrate(userValidator.createOrLogin), login);
 app.post('/signup', celebrate(userValidator.createOrLogin), createUser);
+// Log out
+app.get('/logout', logOut);
 
 // Protected routes
 app.use('/users', auth, usersRouter);
