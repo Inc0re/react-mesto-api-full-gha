@@ -51,6 +51,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 // Request logger
 app.use(requestLogger);
 
+// Crash test app
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // Unprotected routes
 app.post('/signin', celebrate(userValidator.createOrLogin), login);
 app.post('/signup', celebrate(userValidator.createOrLogin), createUser);
