@@ -22,14 +22,16 @@ function App() {
     api
       .getCurrentUserInfo()
       .then(res => {
+        const { email, name, about, avatar, _id } = res.data
         setCurrentUser(currentUser => ({
           ...currentUser,
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-          _id: res._id,
-          cohort: res.cohort,
+          email,
+          name,
+          about,
+          avatar,
+          _id,
         }))
+        console.log(currentUser)
       })
       .catch(err => console.log(err))
   }
@@ -52,12 +54,9 @@ function App() {
     authApi
       .login(userData)
       .then(res => {
-        if (res.token) {
           setIsTooltipSuccess(true)
-          localStorage.setItem('jwt', res.token)
           setLoggedIn(true)
-          console.log('Успешная авторизация. Токен сохранен в localStorage')
-        }
+          console.log('Успешная авторизация. Токен сохранен в cookies')
       })
       .catch(err => {
         setIsTooltipSuccess(false)
@@ -73,28 +72,8 @@ function App() {
   }
 
   React.useEffect(() => {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      authApi
-        .checkToken(token)
-        .then(res => {
-          if (res) {
-            setLoggedIn(true)
-            setCurrentUser(currentUser => ({
-              ...currentUser,
-              email: res.data.email,
-            }))
-          }
-        })
-        .catch(err => console.log(err))
-    }
-  }, [loggedIn])
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      getCurrentUserInfo()
-    }
-  }, [loggedIn])
+    getCurrentUserInfo()
+  }, [])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

@@ -2,6 +2,7 @@ class AuthApi {
   constructor(options) {
     this._baseUrl = options.baseUrl
     this._headers = options.headers
+    this._credentials = options.credentials
   }
 
   _getJson(res) {
@@ -34,6 +35,7 @@ class AuthApi {
         email: data.email,
         password: data.password,
       }),
+      credentials: this._credentials,
     })
   }
 
@@ -43,6 +45,7 @@ class AuthApi {
         ...this._headers,
         Authorization: `Bearer ${token}`,
       },
+      credentials: this._credentials,
     })
   }
 }
@@ -53,6 +56,7 @@ const authApi = new AuthApi({
   headers: {
     'Content-Type': 'application/json',
   },
+  credentials: 'include',
 })
 
 export default authApi

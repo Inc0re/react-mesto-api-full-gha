@@ -23,8 +23,8 @@ function Home({ setCurrentUser }) {
   React.useEffect(() => {
     api
       .getInitialCards()
-      .then(data => {
-        setCards(data)
+      .then(res => {
+        setCards(res.data)
       })
       .catch(err => console.log(err))
       .finally(() => setIsLoading(false))
@@ -40,7 +40,7 @@ function Home({ setCurrentUser }) {
       .then(res => {
         setCurrentUser({
           ...currentUser,
-          avatar: res.avatar})
+          avatar: res.data.avatar})
         closeAllPopups()
       })
       .catch(err => console.log(err))
@@ -64,8 +64,8 @@ function Home({ setCurrentUser }) {
       .then(res => {
         setCurrentUser({
           ...currentUser,
-          name: res.name,
-          about: res.about,
+          name: res.data.name,
+          about: res.data.about,
           })
         closeAllPopups()
       })
