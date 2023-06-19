@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { JWT_SECRET = 'super-secret-key' } = process.env;
 
 module.exports = {
@@ -11,5 +13,5 @@ module.exports = {
   mongoDuplicateKeyError: 11000,
   saltRounds: 10,
   jwtSecret: JWT_SECRET,
-  urlTemplate: /(https?:\/\/)(www\.)?([a-z\d-]+\.)+([a-z]{2,6})(\/[a-z\d\-._~:/?#[\]@!$&'()*+,;=]+)*\/?$/,
+  urlTemplate: /(https?:\/\/)(www\.)?([a-z\d-]+\.)+([a-z]{2,6})(\/[A-Za-z\d\-._~:/?#[\]@!$&'()*+,;=]+)*\/?$/,
 };

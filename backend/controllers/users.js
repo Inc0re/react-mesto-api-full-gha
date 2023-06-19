@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
   BadRequestError,
-  UnauthorizedError,
   NotFoundError,
   ConflictError,
 } = require('../utils/errors');
@@ -153,9 +152,7 @@ const login = (req, res, next) => {
       });
       res.status(200).send({ message: 'Авторизация прошла успешно' });
     })
-    .catch((err) => {
-      next(new UnauthorizedError(err.message));
-    });
+    .catch(next);
 };
 
 // Log out

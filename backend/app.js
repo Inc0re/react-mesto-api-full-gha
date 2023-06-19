@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, errors } = require('celebrate');
 const usersRouter = require('./routes/users');
@@ -38,8 +38,8 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Connect to MongoDB
@@ -67,7 +67,7 @@ app.get('/logout', logOut);
 // Protected routes
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
-app.use((req, res, next) => {
+app.use(auth, (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
 
