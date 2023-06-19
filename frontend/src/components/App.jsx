@@ -56,7 +56,7 @@ function App() {
         if (res) {
           setIsTooltipSuccess(true)
           setLoggedIn(true)
-          console.log('Успешная авторизация. Токен сохранен в localStorage')
+          console.log('Успешная авторизация. Токен сохранен в cookie.')
         }
       })
       .catch(err => {
