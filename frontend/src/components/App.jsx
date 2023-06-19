@@ -22,10 +22,11 @@ function App() {
     api
       .getCurrentUserInfo()
       .then(res => {
-        const { name, about, avatar, _id } = res.data
+        const { name, email, about, avatar, _id } = res.data
         setCurrentUser(currentUser => ({
           ...currentUser,
           name,
+          email,
           about,
           avatar,
           _id,
@@ -75,24 +76,6 @@ function App() {
       }
     })
   }
-
-  // React.useEffect(() => {
-  //   const token = localStorage.getItem('jwt')
-  //   if (token) {
-  //     authApi
-  //       .checkToken(token)
-  //       .then(res => {
-  //         if (res) {
-  //           setLoggedIn(true)
-  //           setCurrentUser(currentUser => ({
-  //             ...currentUser,
-  //             email: res.data.email,
-  //           }))
-  //         }
-  //       })
-  //       .catch(err => console.log(err))
-  //   }
-  // }, [loggedIn])
 
   React.useEffect(() => {
     // if (loggedIn) {
