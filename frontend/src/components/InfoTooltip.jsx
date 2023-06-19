@@ -2,7 +2,7 @@ import okImage from '../images/status-ok.svg'
 import errorImage from '../images/status-error.svg'
 import Popup from './Popup'
 
-function InfoTooltip({ isSuccess, isOpened, setIsPopupOpened }) {
+function InfoTooltip({ isSuccess, isOpened, setIsPopupOpened, message }) {
   function handleClose() {
     setIsPopupOpened(false)
   }
@@ -23,7 +23,7 @@ function InfoTooltip({ isSuccess, isOpened, setIsPopupOpened }) {
       <h2 className='popup__warning'>
         {isSuccess
           ? 'Вы успешно зарегистрировались!'
-          : 'Что-то пошло не так! Попробуйте ещё раз.'}
+          : message || 'Что-то пошло не так! Попробуйте ещё раз.'}
       </h2>
     </Popup>
   )
