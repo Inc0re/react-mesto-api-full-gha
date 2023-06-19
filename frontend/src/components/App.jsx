@@ -17,6 +17,16 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isTooltipSuccess, setIsTooltipSuccess] = useState(false)
+  const [tooltipMessage, setTooltipMessage] = useState('')
+
+  function setTooltipErrorMessage(err) {
+    if (err.message === 'Validation failed') {
+      if(err.validation.body.keys[0] === 'email') {
+        return setTooltipMessage('Некорректный email')
+      }
+    }
+    return setTooltipMessage(err.message)
+  }
 
   function getCurrentUserInfo() {
     api
@@ -45,8 +55,8 @@ function App() {
       })
       .catch(err => {
         setIsTooltipSuccess(false)
+        setTooltipErrorMessage(err)
         setIsTooltipOpen(true)
-        console.log(err)
       })
   }
 
@@ -62,6 +72,7 @@ function App() {
       })
       .catch(err => {
         setIsTooltipSuccess(false)
+        setTooltipErrorMessage(err)
         setIsTooltipOpen(true)
         console.log(err)
       })
@@ -127,6 +138,7 @@ function App() {
         isOpened={isTooltipOpen}
         isSuccess={isTooltipSuccess}
         setIsPopupOpened={setIsTooltipOpen}
+        message={tooltipMessage}
       />
     </CurrentUserContext.Provider>
   )
