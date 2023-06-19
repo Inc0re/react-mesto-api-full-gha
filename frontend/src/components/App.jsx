@@ -22,14 +22,15 @@ function App() {
     api
       .getCurrentUserInfo()
       .then(res => {
+        const { name, about, avatar, _id } = res.data
         setCurrentUser(currentUser => ({
           ...currentUser,
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-          _id: res._id,
-          cohort: res.cohort,
+          name,
+          about,
+          avatar,
+          _id,
         }))
+        setLoggedIn(true)
       })
       .catch(err => console.log(err))
   }
@@ -52,9 +53,8 @@ function App() {
     authApi
       .login(userData)
       .then(res => {
-        if (res.token) {
+        if (res) {
           setIsTooltipSuccess(true)
-          localStorage.setItem('jwt', res.token)
           setLoggedIn(true)
           console.log('Успешная авторизация. Токен сохранен в localStorage')
         }
@@ -67,33 +67,38 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem('jwt')
-    setLoggedIn(false)
-    setCurrentUser({})
+    authApi.logout().then(res => {
+      if (res) {
+        setLoggedIn(false)
+        setCurrentUser({})
+        console.log('Успешный выход из системы.')
+      }
+    })
   }
 
-  React.useEffect(() => {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      authApi
-        .checkToken(token)
-        .then(res => {
-          if (res) {
-            setLoggedIn(true)
-            setCurrentUser(currentUser => ({
-              ...currentUser,
-              email: res.data.email,
-            }))
-          }
-        })
-        .catch(err => console.log(err))
-    }
-  }, [loggedIn])
+  // React.useEffect(() => {
+  //   const token = localStorage.getItem('jwt')
+  //   if (token) {
+  //     authApi
+  //       .checkToken(token)
+  //       .then(res => {
+  //         if (res) {
+  //           setLoggedIn(true)
+  //           setCurrentUser(currentUser => ({
+  //             ...currentUser,
+  //             email: res.data.email,
+  //           }))
+  //         }
+  //       })
+  //       .catch(err => console.log(err))
+  //   }
+  // }, [loggedIn])
 
   React.useEffect(() => {
-    if (loggedIn) {
-      getCurrentUserInfo()
-    }
+    // if (loggedIn) {
+    //   getCurrentUserInfo()
+    // }
+    getCurrentUserInfo()
   }, [loggedIn])
 
   return (

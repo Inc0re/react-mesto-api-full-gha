@@ -2,6 +2,7 @@ class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
+    this._credentials = options.credentials;
   }
 
   _getJson(res) {
@@ -12,7 +13,10 @@ class Api {
   }
 
   _request(url, options) {
-    return fetch(url, options).then(this._getJson);
+    return fetch(url, {
+      credentials: this._credentials,
+      ...options,
+    }).then(this._getJson);
   }
 
   getInitialCards() {
@@ -89,11 +93,12 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-61',
+  baseUrl: 'https://api.mesto-app.nomoredomains.rocks',
   headers: {
     authorization: 'c519be36-1688-462e-850e-24d5f59a3900',
     'Content-Type': 'application/json',
   },
+  credentials: 'include',
 });
 
 export default api;

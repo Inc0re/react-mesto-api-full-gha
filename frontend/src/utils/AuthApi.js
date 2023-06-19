@@ -2,6 +2,7 @@ class AuthApi {
   constructor(options) {
     this._baseUrl = options.baseUrl
     this._headers = options.headers
+    this._credentials = options.credentials
   }
 
   _getJson(res) {
@@ -12,7 +13,10 @@ class AuthApi {
   }
 
   _request(url, options) {
-    return fetch(url, options).then(this._getJson)
+    return fetch(url, {
+      credentials: this._credentials,
+      ...options,
+    }).then(this._getJson)
   }
 
   register(data) {
@@ -37,6 +41,13 @@ class AuthApi {
     })
   }
 
+  logout() {
+    return this._request(`${this._baseUrl}/logout`, {
+      method: 'GET',
+      headers: this._headers,
+    })
+  }
+
   checkToken(token) {
     return this._request(`${this._baseUrl}/users/me`, {
       headers: {
@@ -48,11 +59,12 @@ class AuthApi {
 }
 
 const authApi = new AuthApi({
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'https://api.mesto-app.nomoredomains.rocks',
   // baseUrl: 'http://localhost:3001',
   headers: {
     'Content-Type': 'application/json',
   },
+  credentials: 'include',
 })
 
 export default authApi
