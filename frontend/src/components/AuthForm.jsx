@@ -3,18 +3,6 @@ import useForm from '../hooks/useForm'
 
 function AuthForm({ title, btnText, onSubmit, showLink }) {
   const { values, handleChange } = useForm({})
-  // const [userData, setUserData] = useState({
-  //   email: '',
-  //   password: '',
-  // })
-
-  // function handleChange(e) {
-  //   const { name, value } = e.target
-  //   setUserData({
-  //     ...userData,
-  //     [name]: value,
-  //   })
-  // }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -40,6 +28,7 @@ function AuthForm({ title, btnText, onSubmit, showLink }) {
         placeholder='Пароль'
         value={values.password || ''}
         onChange={handleChange}
+        minLength={8}
         required
       />
       <button className='login-form__btn' type='submit'>
