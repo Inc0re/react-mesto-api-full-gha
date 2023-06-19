@@ -9,7 +9,8 @@ class AuthApi {
     if (res.ok) {
       return res.json()
     }
-    return Promise.reject(`Error: ${res.status}`)
+    // return Promise.reject(`Error: ${res.status}`)
+    return res.json().then((err) => Promise.reject(err))
   }
 
   _request(url, options) {
